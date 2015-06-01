@@ -1,12 +1,18 @@
+{-# LANGUAGE GADTs, DataKinds, RankNTypes #-}
+
 module Tests where
 
 import AST
 import Checker
 import Data.List
+import Types
+import Match
+import Test.QuickCheck
 
 type TestCase = Cases
 
-n = NullBinder
+nb :: Binder
+nb = NullBinder
 
 -- | test: Testing function
 test :: DefPm -> TestCase -> Bool
@@ -24,16 +30,16 @@ g = [[Succ $ Succ $ Succ Zero]]
 
 -- | exh: simple exhaustive definition
 exh :: DefPm
-exh = [[Succ n], [Zero]]
+exh = [[Succ nb], [Zero]]
 
 -- | min: the patterns of 
 --   * a `min` function
 _min :: DefPm
-_min = [[Zero, n], [n, Zero], [Succ n, Succ n]]
+_min = [[Zero, nb], [nb, Zero], [Succ nb, Succ nb]]
 
 -- | crazy: some crazy function
 crazy :: DefPm
-crazy = [[Zero, Succ n, Succ Zero], [Succ n, Zero, Succ $ Succ Zero]]
+crazy = [[Zero, Succ nb, Succ Zero], [Succ nb, Zero, Succ $ Succ Zero]]
 
 -- | Checking the results of the above definitions
 --   * The uncovered cases for each definition were taken by executing
@@ -42,12 +48,12 @@ crazy = [[Zero, Succ n, Succ Zero], [Succ n, Zero, Succ $ Succ Zero]]
 -- * f : should not be exhaustive
 -- * the missing case is [Succ _]
 test_f :: Bool
-test_f = test f [[Succ n]]
+test_f = test f [[Succ nb]]
 
 -- * g: should not be exhaustive
 -- * the missing cases are [Zero, Succ Zero, Succ (Succ Zero), Succ (Succ (Succ (Succ _)))]
 test_g :: Bool
-test_g = test g [[Zero], [Succ Zero], [Succ (Succ Zero)], [Succ (Succ (Succ (Succ n)))]]
+test_g = test g [[Zero], [Succ Zero], [Succ (Succ Zero)], [Succ (Succ (Succ (Succ nb)))]]
 
 -- * exh: should be exhaustive
 test_exh :: Bool
@@ -72,5 +78,24 @@ test_min = test _min []
 -- *        (Succ _) Zero (Succ Zero)
 -- *        (Succ _) Zero (Succ (Succ (Succ _)))
 test_crazy :: Bool
-test_crazy = test crazy [[Zero, Zero, n], [Zero, Succ n, Zero], [Zero, Succ n, Succ $ Succ n], [Succ n, Succ n, n],
-                         [Succ n, Zero, Zero], [Succ n, Zero, Succ Zero], [Succ n, Zero, Succ $ Succ $ Succ n]]
+test_crazy = test crazy [[Zero, Zero, nb], [Zero, Succ nb, Zero], [Zero, Succ nb, Succ $ Succ nb], [Succ nb, Succ nb, nb],
+                         [Succ nb, Zero, Zero], [Succ nb, Zero, Succ Zero], [Succ nb, Zero, Succ $ Succ $ Succ nb]]
+
+-- |
+-- | QuickCheck
+--   *
+--   * Arbitrary binders instance
+
+instance Arbitrary Binder where
+  arbitrary = oneof [return NullBinder, return Zero, fmap Succ arbitrary]
+
+compare_missed bl br = uncover bl br == missed bl br
+
+--    * 
+--    * Arbitrary Nat instance
+
+instance Arbitrary Nat where
+  arbitrary = oneof [return Z, fmap S arbitrary]
+
+--    *
+--    * Properties over generated uncovered Vecs to test missed
