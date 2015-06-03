@@ -41,13 +41,13 @@ instance Match Binder where
 
   missed b _ = [b]
 
-{-instance (Match c) => Match (Vec n c) where
+instance (Match c) => Match (Vec n c) where
   missed Nil _ = []
   missed (Cons x xs) (Cons y ys) | null miss = map (Cons x) (missed xs ys)
-                                 | otherwise = (map (\c -> Cons c xs) miss) ++ (map (Cons y) (missed xs ys))
+                                 | otherwise = map (`Cons` xs) miss ++ map (Cons y) (missed xs ys)
     where
-    miss = missed x y-}
+    miss = missed x y
 
-instance (Match c) => Match (Vec n c) where
+{- instance (Match c) => Match (Vec n c) where
   missed Nil Nil = []
-  missed (Cons x xs) (Cons y ys) = map (`Cons` xs) (missed x y) ++ map (Cons x) (missed xs ys)
+  missed (Cons x xs) (Cons y ys) = map (`Cons` xs) (missed x y) ++ map (Cons x) (missed xs ys) -}

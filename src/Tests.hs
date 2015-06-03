@@ -87,7 +87,7 @@ test_crazy = test crazy [[Zero, Zero, nb], [Zero, Succ nb, Zero], [Zero, Succ nb
 --   * Arbitrary binders instance
 
 instance Arbitrary Binder where
-  arbitrary = oneof [return NullBinder, return Zero, fmap Succ arbitrary]
+  arbitrary = oneof [return NullBinder, return Zero, Succ <$> arbitrary]
 
 compare_missed bl br = uncover bl br == missed bl br
 
@@ -95,7 +95,8 @@ compare_missed bl br = uncover bl br == missed bl br
 --    * Arbitrary Nat instance
 
 instance Arbitrary Nat where
-  arbitrary = oneof [return Z, fmap S arbitrary]
+  arbitrary = oneof [return Z, S <$> arbitrary]
 
 --    *
 --    * Properties over generated uncovered Vecs to test missed
+prop_miss1 bl br = 
