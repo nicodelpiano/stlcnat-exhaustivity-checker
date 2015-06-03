@@ -1,0 +1,9 @@
+name: stlcnat-exhaustivity-checker
+version: 0.1
+cabal-version: >=1.8
+stability: experimental
+build-type: Simple
+license: MIT
+license-file: LICENSE
+synopsis: A Small Language Exhaustivity Checker
+
