@@ -1,3 +1,5 @@
+{-# LANGUAGE GADTs, DataKinds, RankNTypes #-}
+
 module Functions where
 
 import DataTypes

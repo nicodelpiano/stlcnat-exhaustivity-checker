@@ -30,9 +30,9 @@ unmatched' = foldr op []
 -- | check: given a pattern matching definition
 --   * we check whether or not it is exhaustive
 --   * giving the resultant non-covered cases
-check :: DefPm -> Result
-check [] = []
-check pmdef@(pm:_) =
+ccheck :: DefPm -> Result
+ccheck [] = []
+ccheck pmdef@(pm:_) =
   check_uncovers unm pmdef
   where
   unm = unmatched pm
@@ -109,4 +109,4 @@ check_uncovers ucs (c:cs) =
 -- | is_exhaustive: returns whether or not
 --   * the given definition is exhaustive
 is_exhaustive :: DefPm -> Bool
-is_exhaustive = null . check
+is_exhaustive = null . ccheck
