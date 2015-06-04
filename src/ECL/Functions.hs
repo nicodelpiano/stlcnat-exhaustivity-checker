@@ -1,8 +1,8 @@
 {-# LANGUAGE GADTs, DataKinds, RankNTypes #-}
 
-module Functions where
+module ECL.Functions where
 
-import DataTypes
+import ECL.DataTypes
 
 vecToList :: Vec n a -> [a]
 vecToList Nil = []

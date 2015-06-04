@@ -1,6 +1,6 @@
-module ClassicChecker where
+module ECL.ClassicChecker where
 
-import DataTypes
+import ECL.DataTypes
 
 -- | Type Synonyms for pattern
 --   * representation

@@ -1,11 +1,11 @@
 {-# LANGUAGE GADTs, DataKinds, RankNTypes #-}
 
-module Checker where
+module ECL.Checker where
 
-import Match
-import DataTypes
-import Instances
-import Functions
+import ECL.Match
+import ECL.DataTypes
+import ECL.Instances
+import ECL.Functions
 
 check :: (Match c) => [(c, c)] -> [[c]]
 check = listToVec (map vecToList . uncurry missed . unzipVec)

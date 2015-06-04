@@ -6,11 +6,11 @@ import Data.List
 import Data.Functor
 import Test.QuickCheck
 
-import DataTypes
-import Checker
-import ClassicChecker
-import Instances 
-import Match
+import ECL.DataTypes
+import ECL.Checker
+import ECL.ClassicChecker
+import ECL.Instances 
+import ECL.Match
 
 nb :: Binder
 nb = NullBinder

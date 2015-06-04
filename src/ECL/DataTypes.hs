@@ -1,6 +1,6 @@
 {-# LANGUAGE GADTs, DataKinds, RankNTypes #-}
 
-module DataTypes where
+module ECL.DataTypes where
 
 -- | Nat
 data Nat = Z | S Nat

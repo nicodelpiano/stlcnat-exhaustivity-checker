@@ -1,9 +1,9 @@
 {-# LANGUAGE GADTs, DataKinds, RankNTypes #-}
 
-module Instances where
+module ECL.Instances where
 
-import Match
-import DataTypes
+import ECL.Match
+import ECL.DataTypes
 
 instance Match Binder where
   missed _ NullBinder = []

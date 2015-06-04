@@ -1,4 +1,4 @@
-module Match where
+module ECL.Match where
 
 class Match c where
   full :: c
